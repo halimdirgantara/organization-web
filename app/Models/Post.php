@@ -21,7 +21,23 @@ class Post extends Model
         'organization_id',
         'views',
     ];
-    public function organizationinsocialmedia(){
+    // public function fileinpost(){
+    //     return $this->belongsTo(File::class,'feature_image');
+    // }
+    // public function categoryinpost(){
+    //     return $this->belongsTo(Category::class,'category_id');
+    // }
+    public function userincreated(){
+        return $this->belongsTo(User::class,'created_by');
+    }
+    public function userinupdated(){
+        return $this->belongsTo(User::class,'updated_by');
+    }
+    public function organizationinpost(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
+    public function posttag(): HasMany
+    {
+        return $this->hasMany(PostTag::class, 'post_id', 'id');
+    } 
 }

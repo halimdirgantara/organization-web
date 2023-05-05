@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->string('body');
-            $table->string('feature_image');
-            $table->string('category_id');
+            $table->text('body');
+            $table->foreignId('feature_image');
+            $table->foreignId('category_id');
             $table->string('post_type');
             $table->string('status');
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->string('organization_id')->nullable();
+            $table->foreignId('created_by');
+            $table->foreignId('updated_by');
+            $table->foreignId('organization_id');
+            $table->integer('views');
             $table->timestamps();
         });
     }

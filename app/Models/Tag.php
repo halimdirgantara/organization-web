@@ -15,4 +15,8 @@ class Tag extends Model
     public function organizationintag(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
+    public function tagpost(): HasMany
+    {
+        return $this->hasMany(PostTag::class, 'tag_id', 'id');
+    } 
 }
