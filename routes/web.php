@@ -31,5 +31,7 @@ Route::prefix('admin')->middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::resource('organizations', OrganizationController::class);
+    Route::name('master-data.')->group(function () {
+        Route::resource('organizations', OrganizationController::class);
+    });
 });
