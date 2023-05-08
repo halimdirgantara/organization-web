@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use ProtoneMedia\Splade\SpladeTable;
 
 class OrganizationController extends Controller
 {
@@ -13,7 +14,13 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        return view('admin.organization.index');
+        // $organizations = Organization::get();
+        return view('admin.organization.index', [
+            'organizations' => SpladeTable::for(Organization::class)
+            ->column('name')
+            ->column('email')
+            ->paginate(15),
+        ]);
     }
 
     /**

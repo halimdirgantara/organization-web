@@ -18,13 +18,13 @@
                 </div>
 
                 <!-- Add the parent menu with dropdown -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <div class="flex items-center">
+                <x-dropdown-parent class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" :active="request()->is('master-data*')">
+                    <div class="flex items-center ">
                         <x-dropdown>
                             <x-slot name="trigger">
-                                <x-nav-link href="#" :active="request()->is('master-data*')">
+                                <a class="inline-flex items-center px-1 pt-1 " href="#">
                                     {{ __('Master Data') }}
-                                </x-nav-link>
+                                </a>
                             </x-slot>
 
                             <x-slot name="content">
@@ -36,7 +36,7 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
-                </div>
+                </x-dropdown-parent>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
