@@ -14,14 +14,19 @@ use App\Http\Controllers\Admin\OrganizationController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware([
+    'splade'
+])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
 
 Route::prefix('admin')->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
+    'splade'
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
