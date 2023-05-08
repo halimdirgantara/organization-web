@@ -16,6 +16,27 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Add the parent menu with dropdown -->
+                <x-dropdown-parent class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" :active="request()->routeIs('master-data.*')">
+                    <div class="flex items-center ">
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <a class="inline-flex items-center px-1 pt-1 " href="#">
+                                    {{ __('Master Data') }}
+                                </a>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <!-- Add the dropdown menu items -->
+                                <x-dropdown-link href="{{ route('master-data.organizations.index') }}">
+                                    {{ __('Organizations') }}
+                                </x-dropdown-link>
+                                <!-- Add more dropdown menu items as needed -->
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+                </x-dropdown-parent>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
