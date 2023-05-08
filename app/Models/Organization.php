@@ -45,4 +45,28 @@ class Organization extends Model
     {
         return $this->hasMany(SocialMedia::class, 'organzation_id', 'id');
     }
+    public function organizationincontactus(): HasMany
+    {
+        return $this->hasMany(ContactUs::class, 'organzation_id', 'id');
+    }
+    public function organizationintag(): HasMany
+    {
+        return $this->hasMany(Tag::class, 'organzation_id', 'id');
+    }
+    public function organizationinpost(): HasMany
+    {
+        return $this->hasMany(Post::class, 'organzation_id', 'id');
+    }
+    public function organizationincategory(): HasMany
+    {
+        return $this->hasMany(Category::class, 'organzation_id', 'id');
+    }
+    public function organizationinmenu(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'organzation_id', 'id');
+    }    
+    public function organizationFile(): HasMany
+    {
+        return $this->hasMany(File::class, 'organzation_id', 'id');
+    }    
 }

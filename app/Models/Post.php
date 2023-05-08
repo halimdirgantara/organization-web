@@ -36,8 +36,19 @@ class Post extends Model
     public function organizationinpost(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
+    public function categoryinpost(){
+        return $this->belongsTo(Category::class,'category_id');
+    }
     public function posttag(): HasMany
     {
         return $this->hasMany(PostTag::class, 'post_id', 'id');
     } 
+    public function postinmenu(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'post_id', 'id');
+    }
+    public function postFile(): HasMany
+    {
+        return $this->hasMany(FilePost::class, 'post_id', 'id');
+    }
 }

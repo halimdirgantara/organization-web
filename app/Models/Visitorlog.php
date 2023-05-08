@@ -12,7 +12,7 @@ class Visitorlog extends Model
         'visitor_id',
         'url',
     ];
-    public function visitor(){
+    public function log_visitor(){
         return $this->belongsTo(Visitor::class,'visitor_id');
     }
 }

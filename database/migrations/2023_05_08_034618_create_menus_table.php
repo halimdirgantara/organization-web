@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('visitors', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('unique_id')->unique();
-            $table->string('ip');
-            $table->string('user_agent');
-            $table->string('device_id');
-            $table->string('location');
-            $table->string('coordinate');
-            $table->boolean('is_online')->nullable()->default(false);
+            $table->string('name');
+            $table->string('url');
             $table->foreignId('organization_id');
+            $table->foreignId('category_id')->nullable();
+            $table->foreignId('post_id')->nullable();
+            $table->foreignId('tag_id')->nullable();
+            $table->foreignId('parent_id')->nullable();
+            $table->integer('order');
+            $table->string('menu_type');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('visitors');
+        Schema::dropIfExists('menus');
     }
 };
