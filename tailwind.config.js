@@ -2,6 +2,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    presets: [
+        require('./vendor/wireui/wireui/tailwind.config.js')
+    ],
+
     content: [
         './vendor/protonemedia/laravel-splade/lib/**/*.vue',
         './vendor/protonemedia/laravel-splade/resources/views/**/*.blade.php',
