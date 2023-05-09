@@ -7,8 +7,9 @@ module.exports = {
     ],
 
     content: [
-        './vendor/protonemedia/laravel-splade/lib/**/*.vue',
-        './vendor/protonemedia/laravel-splade/resources/views/**/*.blade.php',
+        './vendor/wireui/wireui/resources/**/*.blade.php',
+        './vendor/wireui/wireui/ts/**/*.ts',
+        './vendor/wireui/wireui/src/View/**/*.php',
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',

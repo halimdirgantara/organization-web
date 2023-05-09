@@ -17,6 +17,7 @@
         <script src="//unpkg.com/alpinejs" defer></script>
     </head>
     <body>
+        <x-notifications />
         <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
             {{ $slot }}
         </div>
