@@ -4,7 +4,7 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <x-validation-errors class="mb-4" />
+        <x-errors title="Kami menemukan {errors} kesalahan pada validasi" />
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
@@ -15,14 +15,12 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="mt-4">
+                <x-input icon="mail" name="email" label="Email" placeholder="Tuliskan email anda" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-inputs.password name="password" label="Kata Sandi" value="Masukkan Kata Sandi" />
             </div>
 
             <div class="block mt-4">
@@ -39,9 +37,9 @@
                     </a>
                 @endif
 
-                <x-button class="ml-4">
+                <x-button-jet class="ml-4">
                     {{ __('Log in') }}
-                </x-button>
+                </x-button-jet>
             </div>
         </form>
     </x-authentication-card>

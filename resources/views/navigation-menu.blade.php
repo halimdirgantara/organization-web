@@ -20,7 +20,7 @@
                 <!-- Add the parent menu with dropdown -->
                 <x-dropdown-parent class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" :active="request()->routeIs('master-data.*')">
                     <div class="flex items-center ">
-                        <x-dropdown>
+                        <x-dropdown-jet>
                             <x-slot name="trigger">
                                 <a class="inline-flex items-center px-1 pt-1 " href="#">
                                     {{ __('Master Data') }}
@@ -34,7 +34,7 @@
                                 </x-dropdown-link>
                                 <!-- Add more dropdown menu items as needed -->
                             </x-slot>
-                        </x-dropdown>
+                        </x-dropdown-jet>
                     </div>
                 </x-dropdown-parent>
             </div>
@@ -43,7 +43,7 @@
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
-                        <x-dropdown align="right" width="60">
+                        <x-dropdown-jet align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
@@ -88,13 +88,13 @@
                                     @endif
                                 </div>
                             </x-slot>
-                        </x-dropdown>
+                        </x-dropdown-jet>
                     </div>
                 @endif
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown-jet align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
@@ -141,7 +141,7 @@
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
-                    </x-dropdown>
+                    </x-dropdown-jet>
                 </div>
             </div>
 

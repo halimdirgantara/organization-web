@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <wireui:scripts />
+        <script src="//unpkg.com/alpinejs" defer></script>
     </head>
     <body>
         <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
