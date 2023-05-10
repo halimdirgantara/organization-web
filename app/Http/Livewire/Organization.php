@@ -12,6 +12,7 @@ class Organization extends Component
 {
     use Actions;
     use WithFileUploads;
+
     public $showForm = FALSE;
 
     public $name;
@@ -50,7 +51,7 @@ class Organization extends Component
     public function fileUploaded()
     {
         $this->validate([
-            'photo' => 'image|max:1024', // 1MB Max
+            'photo' => 'image|max:250', // 1MB Max
         ]);
 
         $this->logo = $this->storeTemporaryUploadedFile($this->logo);
@@ -60,7 +61,7 @@ class Organization extends Component
     {
         $data = $this->validate([
             'name' => 'required',
-            'abbreviation' => 'required|max:5',
+            'abbreviation' => 'required',
             'description' => 'required',
             'address' => 'required',
             'latitude' => 'nullable|numeric',
@@ -68,20 +69,22 @@ class Organization extends Component
             'email' => 'nullable|email',
             'phone' => 'nullable',
             'fax' => 'nullable',
-            'logo' => 'nullable|image|max:1024',
         ]);
 
         $data['slug'] = Str::slug($data['name']);
 
-        if (array_key_exists('logo', $data)) {
-            $data['logo'] = $data['logo']->store('public/organizations');
+        if ($this->logo) {
+            $data['logo'] = $this->logo->store('public/organizations');
         }
 
-        // OrganizationModel::create($data);
-
-        dd('sukses');
+        OrganizationModel::create($data);
 
         $this->showForm = false;
         $this->reset('name', 'abbreviation', 'description', 'address', 'latitude', 'longitude', 'email', 'phone', 'fax', 'logo');
+        $this->notification([
+            'title'       => 'Tambah Organisasi',
+            'description' => $data['slug'] .' Berhasil Disimpan!',
+            'icon'        => 'success'
+        ]);
     }
 }
