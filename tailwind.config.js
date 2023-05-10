@@ -25,9 +25,6 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
-            colors: {
-                "pg-primary": colors.gray,
-            },
         },
     },
 
