@@ -74,7 +74,7 @@ class Organization extends Component
         $data['slug'] = Str::slug($data['name']);
 
         if ($this->logo) {
-            $data['logo'] = $this->logo->store('public/organizations');
+            $data['logo'] = $this->logo->store('storage/organizations');
         }
 
         OrganizationModel::create($data);
