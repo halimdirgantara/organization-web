@@ -33,6 +33,7 @@ class Organization extends Component
 
     public function toggleForm()
     {
+        $this->emit('newOrganization');
         $this->showForm = !$this->showForm;
     }
 
@@ -74,7 +75,9 @@ class Organization extends Component
         $data['slug'] = Str::slug($data['name']);
 
         if ($this->logo) {
-            $data['logo'] = $this->logo->store('storage/organizations');
+            $logoName = $data['slug'] . '.' . $this->logo->getClientOriginalExtension();
+            $this->logo->storeAs('public/logo', $logoName);
+            $data['logo'] = 'storage/logo/'. $logoName;
         }
 
         OrganizationModel::create($data);
@@ -86,5 +89,6 @@ class Organization extends Component
             'description' => $data['slug'] .' Berhasil Disimpan!',
             'icon'        => 'success'
         ]);
+        $this->emit('addedOrganization', TRUE);
     }
 }

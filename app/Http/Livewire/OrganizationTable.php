@@ -26,6 +26,13 @@ final class OrganizationTable extends PowerGridComponent
     use WithExport;
     use Actions;
 
+    protected $listeners = ['newOrganization'];
+
+    public function newOrganization()
+    {
+        $this->fillData();
+    }
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
@@ -58,23 +65,22 @@ final class OrganizationTable extends PowerGridComponent
     {
         return [
             Button::add('bulk-delete')
-                ->caption(__('Tandai Dihapus'))
+                ->caption(__('Hapus'))
                 ->class('
-                outline-none inline-flex justify-center items-center group transition-all ease-in duration-150 focus:ring-2 focus:ring-offset-2 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded gap-x-2 text-sm px-4 py-2     ring-primary-500 text-white bg-primary-500 hover:bg-primary-600 hover:ring-primary-600
-                dark:ring-offset-slate-800 dark:bg-primary-700 dark:ring-primary-700
-                dark:hover:bg-primary-600 dark:hover:ring-primary-600
-            ')
-            ->emit('bulkDeleteEvent', [])
+                    text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center mr-1 mb-1 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900
+                ')
+                ->emit('bulkDeleteEvent', [])
         ];
     }
 
-    protected function getListeners()
+    protected function getListeners(): array
     {
         return array_merge(
             parent::getListeners(), [
                 'eventX',
                 'eventY',
                 'bulkDeleteEvent',
+                'newOrganization',
             ]);
     }
 
@@ -101,7 +107,10 @@ final class OrganizationTable extends PowerGridComponent
 
     public function delete()
     {
-        dd('delete');
+        foreach($this->checkboxValues as $item)
+        {
+
+        }
     }
 
     /*
