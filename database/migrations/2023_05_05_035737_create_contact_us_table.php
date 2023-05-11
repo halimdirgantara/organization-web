@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('category');
             $table->boolean('is_read');
             $table->foreignId('organization_id');
+            $table->foreignId('read_by');
             $table->timestamps();
         });
     }

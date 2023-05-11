@@ -20,6 +20,8 @@ class Post extends Model
         'updated_by',
         'organization_id',
         'views',
+        'is_headline',
+        'is_main_side',
     ];
     // public function fileinpost(){
     //     return $this->belongsTo(File::class,'feature_image');
@@ -33,17 +35,17 @@ class Post extends Model
     public function userinupdated(){
         return $this->belongsTo(User::class,'updated_by');
     }
-    public function organizationinpost(){
+    public function organizationPost(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
-    public function categoryinpost(){
+    public function categoryPost(){
         return $this->belongsTo(Category::class,'category_id');
     }
-    public function posttag(): HasMany
+    public function postTag(): HasMany
     {
         return $this->hasMany(PostTag::class, 'post_id', 'id');
     } 
-    public function postinmenu(): HasMany
+    public function postMenu(): HasMany
     {
         return $this->hasMany(Menu::class, 'post_id', 'id');
     }

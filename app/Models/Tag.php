@@ -11,12 +11,20 @@ class Tag extends Model
     protected $fillable = [
         'name',
         'organization_id',
+        'created_by',
     ];
-    public function organizationintag(){
+    public function organizationTag(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
-    public function tagpost(): HasMany
+    public function userTag(){
+        return $this->belongsTo(User::class,'created_by');
+    }
+    public function tagPost(): HasMany
     {
         return $this->hasMany(PostTag::class, 'tag_id', 'id');
+    } 
+    public function tagMenu(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'tag_id', 'id');
     } 
 }

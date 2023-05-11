@@ -16,8 +16,12 @@ class ContactUs extends Model
         'category',
         'is_read',
         'organization_id',
+        'read_by',
     ];
-    public function organizationincontactus(){
+    public function organizationContactUs(){
         return $this->belongsTo(Organization::class,'organization_id');
+    }
+    public function userContactUs(){
+        return $this->belongsTo(User::class,'read_by');
     }
 }

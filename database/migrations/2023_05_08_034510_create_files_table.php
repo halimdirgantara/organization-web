@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('size');
             $table->integer('downloaded');
             $table->foreignId('organization_id');
+            $table->foreignId('created_by');
             $table->timestamps();
         });
     }

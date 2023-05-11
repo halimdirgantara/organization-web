@@ -16,5 +16,14 @@ class Team extends Model
         'facebook',
         'instagram',
         'twitter',
+        'parent_id',
     ];
+
+    public function parent(){
+        return $this->belongsTo(Team::class,'parent_id');
+    }
+    public function child(): HasMany
+    {
+        return $this->hasMany(Team::class, 'parent_id', 'id');
+    } 
 }

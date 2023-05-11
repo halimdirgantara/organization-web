@@ -12,10 +12,10 @@ class PostTag extends Model
         'tag_id',
         'post_id',
     ];
-    public function tagpost(){
+    public function tagPost(){
         return $this->belongsTo(Tag::class,'tag_id');
     }
-    public function posttag(){
+    public function postTag(){
         return $this->belongsTo(Post::class,'post_id');
     }
 }

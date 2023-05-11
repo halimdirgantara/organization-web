@@ -25,8 +25,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'phone',
+        'address',
         'email',
         'password',
+        'organization_id',
+        'is_online',
+        'is_active',
     ];
 
     /**
@@ -59,12 +64,35 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function userincreatedpost(): HasMany
+    public function userOrganization(){
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
+    public function userincreated(): HasMany
     {
         return $this->hasMany(Post::class, 'created_by', 'id');
     } 
-    public function userinupdatedpost(): HasMany
+    public function userinupdated(): HasMany
     {
         return $this->hasMany(Post::class, 'updated_by', 'id');
+    } 
+    public function userFile(): HasMany
+    {
+        return $this->hasMany(File::class, 'created_by', 'id');
+    } 
+    public function userGallery(): HasMany
+    {
+        return $this->hasMany(Gallery::class, 'created_by', 'id');
+    } 
+    public function userContactUs(): HasMany
+    {
+        return $this->hasMany(ContactUs::class, 'read_by', 'id');
+    } 
+    public function userTag(): HasMany
+    {
+        return $this->hasMany(ContactUs::class, 'created_by', 'id');
+    } 
+    public function userCategory(): HasMany
+    {
+        return $this->hasMany(Category::class, 'created_by', 'id');
     } 
 }

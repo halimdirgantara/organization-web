@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreignId('updated_by');
             $table->foreignId('organization_id');
             $table->integer('views');
+            $table->boolean('is_headline');
+            $table->boolean('is_main_side');
             $table->timestamps();
         });
     }

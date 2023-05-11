@@ -15,7 +15,7 @@ class FileGallery extends Model
     public function fileGallery(){
         return $this->belongsTo(File::class,'file_id');
     }
-    public function gallerytoFile(){
+    public function galleryFile(){
         return $this->belongsTo(Gallery::class,'gallery_id');
     }
 }

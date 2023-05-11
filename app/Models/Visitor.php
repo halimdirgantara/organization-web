@@ -20,7 +20,7 @@ class Visitor extends Model
     public function visitor_log(){
         return $this->hasMany(VisitorLog::class);
     }
-    public function organizationinvisitor(){
+    public function organizationVisitor(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
 }

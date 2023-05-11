@@ -12,7 +12,14 @@ class Category extends Model
         'name',
         'description',
         'organization_id',
+        'created_by',
     ];
+    public function organizationCategory(){
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
+    public function userCategory(){
+        return $this->belongsTo(User::class,'created_by');
+    }
     public function categoryPost(): HasMany
     {
         return $this->hasMany(Post::class, 'category_id', 'id');
@@ -20,8 +27,5 @@ class Category extends Model
     public function categoryMenu(): HasMany
     {
         return $this->hasMany(Menu::class, 'category_id', 'id');
-    }
-    public function organizationCategory(){
-        return $this->belongsTo(Organization::class,'organization_id');
     }
 }

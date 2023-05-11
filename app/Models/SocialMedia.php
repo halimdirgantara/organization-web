@@ -16,7 +16,7 @@ class SocialMedia extends Model
         'is_active',
         'organization_id',
     ];
-    public function organizationinsocialmedia(){
+    public function organizationSocialMedia(){
         return $this->belongsTo(Organization::class,'organization_id');
     }
 }
