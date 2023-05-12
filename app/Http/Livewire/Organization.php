@@ -14,6 +14,8 @@ class Organization extends Component
     use WithFileUploads;
 
     public $showForm = FALSE;
+    protected $listeners = ['editOrganization'];
+    public $organization;
 
     public $name;
     public $abbreviation;
@@ -33,8 +35,14 @@ class Organization extends Component
 
     public function toggleForm()
     {
-        $this->emit('newOrganization');
         $this->showForm = !$this->showForm;
+    }
+
+    public function editOrganization($slug)
+    {
+        $this->showForm = TRUE;
+        $this->organization = OrganizationModel::where('slug', $slug)->first();
+        return $this->organization;
     }
 
     public function confirmSave()
@@ -89,6 +97,6 @@ class Organization extends Component
             'description' => $data['slug'] .' Berhasil Disimpan!',
             'icon'        => 'success'
         ]);
-        $this->emit('addedOrganization', TRUE);
+        $this->emit('newOrganization');
     }
 }

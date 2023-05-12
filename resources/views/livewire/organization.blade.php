@@ -16,7 +16,7 @@
                 <x-errors title="Kami menemukan {errors} kesalahan saat validasi" />
 
                 @csrf
-                <x-input icon="office-building" wire:model.defer="name" label="Nama"
+                <x-input icon="office-building" wire:model.defer="name" wire:prop="organization.name" label="Nama"
                     placeholder="Tuliskan nama organisasi" />
                 <div class="mt-4">
                     <x-input icon="minus" wire:model.defer="abbreviation" label="Singkatan"

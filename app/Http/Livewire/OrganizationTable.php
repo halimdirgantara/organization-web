@@ -2,23 +2,24 @@
 
 namespace App\Http\Livewire;
 
+use WireUi\Traits\Actions;
 use App\Models\Organization;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
+use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Rules\Rule;
+use PowerComponents\LivewirePowerGrid\Filters\Filter;
+use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 use PowerComponents\LivewirePowerGrid\Rules\RuleActions;
-use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
-use WireUi\Traits\Actions;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 
 final class OrganizationTable extends PowerGridComponent
 {
@@ -30,7 +31,7 @@ final class OrganizationTable extends PowerGridComponent
 
     public function newOrganization()
     {
-        $this->fillData();
+        $this->emit('pg:eventRefresh-default');
     }
 
     /*
@@ -100,17 +101,64 @@ final class OrganizationTable extends PowerGridComponent
             'description' => 'Hapus Organisasi?',
             'acceptLabel' => 'Ya, Hapus!',
             'rejectLabel' => 'Batalkan',
-            'method' => 'delete',
+            'method' => 'bulkDelete',
             'params' => 'Terhapus!',
         ]);
     }
 
-    public function delete()
+    public function bulkDelete()
     {
-        foreach($this->checkboxValues as $item)
-        {
-
+        foreach ($this->checkboxValues as $item) {
+            $organization = Organization::findOrFail($item);
+            if ($organization->relatedModel()->exists()) {
+                $this->notification()->send([
+                    'title' => 'Hapus Organisasi',
+                    'description' => 'Gagal menghapus ' . $organization . ' masih ada relasi!',
+                    'icon' => 'error',
+                ]);
+                return;
+            }
+            $organization->delete();
         }
+        $this->notification()->send([
+            'title' => 'Hapus Organisasi',
+            'description' => 'Anda berhasil menghapus organisasi!',
+            'icon' => 'success',
+        ]);
+    }
+
+    public function rowDeleteConfirm($slug)
+    {
+        $this->notification()->confirm([
+            'title' => 'Apakah anda yakin ?',
+            'description' => 'Hapus Organisasi?',
+            'acceptLabel' => 'Ya, Hapus!',
+            'rejectLabel' => 'Batalkan',
+            'method' => 'rowDelete',
+            'params' => [
+                'key' => $slug,
+            ],
+        ]);
+    }
+
+    public function rowDelete($slug)
+    {
+        $organization_id = Organization::where('slug', $slug)->first()->id;
+        $organization = Organization::findOrFail($organization_id);
+        // if ($organization->relatedModel()->exists()) {
+        //     $this->notification()->send([
+        //         'title' => 'Hapus Organisasi',
+        //         'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
+        //         'icon' => 'error',
+        //     ]);
+        //     return;
+        // }
+        $organization->delete();
+        $this->notification()->send([
+            'title' => 'Hapus Organisasi',
+            'description' => 'Anda berhasil menghapus organisasi!',
+            'icon' => 'success',
+        ]);
     }
 
     /*
@@ -242,23 +290,38 @@ final class OrganizationTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    // public function actions(): array
-    // {
-    //     return [
-    //         Button::make('edit', 'Edit')
-    //             ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-    //             ->route('master-data.organizations.edit', function (Organization $model) {
-    //                 return $model->id;
-    //             }),
 
-    //         Button::make('destroy', 'Delete')
-    //             ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-    //             ->route('master-data.organizations.destroy', function (\App\Models\Organization $model) {
-    //                 return $model->id;
-    //             })
-    //             ->method('delete'),
-    //     ];
-    // }
+    public function actions(): array
+    {
+        return [
+            Button::add('edit')
+            ->render(function (Organization $organization) {
+                return Blade::render(<<<HTML
+                <x-button primary icon="pencil" wire:click="editOrganization('$organization->slug')" />
+                HTML);
+            }),
+
+            Button::add('delete')
+            ->render(function (Organization $organization) {
+                return Blade::render(<<<HTML
+                <x-button negative icon="trash" wire:click="rowDeleteConfirm('$organization->slug')"  />
+                HTML);
+            }),
+
+            // Button::add('delete')
+            // ->caption('Hapus')
+            // ->class('bg-gray-300')
+            // ->icon('trash')
+            // ->dispatch('rowDelete', function(Organization $organization) {
+            //     return ['key' => $organization->id];
+            // }),
+        ];
+    }
+
+    public function editOrganization($slug)
+    {
+        $this->emit('editOrganization', $slug);
+    }
 
     /*
     |--------------------------------------------------------------------------
