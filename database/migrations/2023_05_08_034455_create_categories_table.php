@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('description');
-            $table->foreignId('organization_id');
-            $table->foreignId('created_by');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

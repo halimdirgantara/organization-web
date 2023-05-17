@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('visitorlogs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('visitor_id');
             $table->text('url');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('instagram');
             $table->string('twitter');
             $table->foreignId('parent_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

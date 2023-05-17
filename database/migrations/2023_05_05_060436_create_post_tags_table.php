@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('post_tags', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tag_id');
-            $table->foreignId('post_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

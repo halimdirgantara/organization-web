@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class File extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
+        'slug',
         'file',
         'file_type',
         'description',
@@ -20,6 +22,9 @@ class File extends Model
     ];
     public function organizationFile(){
         return $this->belongsTo(Organization::class,'organization_id');
+    }
+    public function userFile(){
+        return $this->belongsTo(User::class,'created_by');
     }
     public function coverGallery(): HasMany
     {
@@ -33,7 +38,8 @@ class File extends Model
     {
         return $this->hasMany(FileGallery::class, 'file_id', 'id');
     }
-    public function userFile(){
-        return $this->belongsTo(User::class,'created_by');
+    public function fileToPost(): HasMany
+    {
+        return $this->hasMany(Post::class, 'feature_image', 'id');
     }
 }

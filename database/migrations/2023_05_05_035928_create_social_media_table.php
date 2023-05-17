@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('icon');
             $table->integer('order');
             $table->boolean('is_active');
-            $table->foreignId('organization_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

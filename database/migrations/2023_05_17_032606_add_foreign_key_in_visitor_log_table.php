@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::table('visitorlogs', function (Blueprint $table) {
+            $table->foreignId('visitor_id')->constrained('visitors')->onDelete('restrict');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::table('visitorlogs', function (Blueprint $table) {
+            //
+        });
     }
 };

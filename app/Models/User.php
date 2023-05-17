@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +73,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'created_by', 'id');
     } 
+    public function postShared(): HasMany
+    {
+        return $this->hasMany(Post::class, 'created_by', 'id');
+    } 
     public function userinupdated(): HasMany
     {
         return $this->hasMany(Post::class, 'updated_by', 'id');
@@ -94,5 +100,9 @@ class User extends Authenticatable
     public function userCategory(): HasMany
     {
         return $this->hasMany(Category::class, 'created_by', 'id');
+    } 
+    public function userSocialMedia(): HasMany
+    {
+        return $this->hasMany(SocialMedia::class, 'created_by', 'id');
     } 
 }

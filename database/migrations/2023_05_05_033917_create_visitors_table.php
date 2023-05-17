@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('coordinate');
             $table->boolean('is_online')->nullable()->default(false);
-            $table->foreignId('organization_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

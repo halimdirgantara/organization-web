@@ -16,16 +16,13 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('body');
-            $table->foreignId('feature_image');
-            $table->foreignId('category_id');
             $table->string('post_type');
             $table->string('status');
-            $table->foreignId('created_by');
-            $table->foreignId('updated_by');
-            $table->foreignId('organization_id');
             $table->integer('views');
             $table->boolean('is_headline');
             $table->boolean('is_main_side');
+            $table->string('shared_status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

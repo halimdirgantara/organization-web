@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::table('file_galleries', function (Blueprint $table) {
+            $table->foreignId('file_id')->constrained('files')->onDelete('restrict');
+            $table->foreignId('gallery_id')->constrained('galleries')->onDelete('restrict');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::table('file_galleries', function (Blueprint $table) {
+            //
+        });
     }
 };

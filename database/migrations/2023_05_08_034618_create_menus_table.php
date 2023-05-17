@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->foreignId('organization_id');
+            $table->integer('order');
+            $table->string('menu_type');
             $table->foreignId('category_id')->nullable();
             $table->foreignId('post_id')->nullable();
             $table->foreignId('tag_id')->nullable();
             $table->foreignId('parent_id')->nullable();
-            $table->integer('order');
-            $table->string('menu_type');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('file_posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id');
-            $table->foreignId('post_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

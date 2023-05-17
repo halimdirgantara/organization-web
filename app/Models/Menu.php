@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Menu extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
         'url',
+        'order',
+        'menu_type',
         'organization_id',
         'category_id',
         'post_id',
         'tag_id',
         'parent_id',
-        'order',
-        'menu_type',
     ];
     public function organizationMenu(){
         return $this->belongsTo(Organization::class,'organization_id');

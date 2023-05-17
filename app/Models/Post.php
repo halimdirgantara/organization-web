@@ -4,39 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = [
         'title',
         'slug',
         'body',
-        'feature_image',
-        'category_id',
         'post_type',
         'status',
-        'created_by',
-        'updated_by',
-        'organization_id',
         'views',
         'is_headline',
         'is_main_side',
+        'organization_id',
+        'shared_by',
+        'shared_status',
+        'feature_image',
+        'category_id',
+        'created_by',
+        'updated_by',
     ];
-    // public function fileinpost(){
-    //     return $this->belongsTo(File::class,'feature_image');
-    // }
-    // public function categoryinpost(){
-    //     return $this->belongsTo(Category::class,'category_id');
-    // }
+    public function organizationPost(){
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
+    public function postShared(){
+        return $this->belongsTo(User::class,'shared_by');
+    }
+    public function fileToPost(){
+        return $this->belongsTo(File::class,'feature_image');
+    }
     public function userincreated(){
         return $this->belongsTo(User::class,'created_by');
     }
     public function userinupdated(){
         return $this->belongsTo(User::class,'updated_by');
-    }
-    public function organizationPost(){
-        return $this->belongsTo(Organization::class,'organization_id');
     }
     public function categoryPost(){
         return $this->belongsTo(Category::class,'category_id');

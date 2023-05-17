@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -58,6 +59,12 @@ class Organization extends Model
     {   return $this->hasMany(Menu::class, 'organzation_id', 'id'); }    
 
     public function organizationFile(): HasMany
-    {   return $this->hasMany(File::class, 'organzation_id', 'id'); }    
+    {   return $this->hasMany(File::class, 'organzation_id', 'id'); }
+
+    public function galleryOrganization(): HasMany
+    {   return $this->hasMany(Gallery::class, 'organzation_id', 'id'); }
+
+    public function organizationHasPost(): HasMany
+    {   return $this->hasMany(PostOrganization::class, 'organzation_id', 'id'); }
 
 }
