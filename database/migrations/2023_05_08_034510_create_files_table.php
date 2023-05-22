@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('abbreviation');
-            $table->string('description');
-            $table->string('address');
-            $table->double('latitude');
-            $table->double('longitude');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('fax')->nullable();
-            $table->string('logo')->nullable();
+            $table->string('file');
+            $table->string('file_type');
+            $table->text('description');
+            $table->decimal('size');
+            $table->integer('downloaded');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('files');
     }
 };
