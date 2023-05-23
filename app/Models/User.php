@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -75,37 +76,37 @@ class User extends Authenticatable
     public function userincreated(): HasMany
     {
         return $this->hasMany(Post::class, 'created_by', 'id');
-    } 
+    }
     public function postShared(): HasMany
     {
         return $this->hasMany(Post::class, 'created_by', 'id');
-    } 
+    }
     public function userinupdated(): HasMany
     {
         return $this->hasMany(Post::class, 'updated_by', 'id');
-    } 
+    }
     public function userFile(): HasMany
     {
         return $this->hasMany(File::class, 'created_by', 'id');
-    } 
+    }
     public function userGallery(): HasMany
     {
         return $this->hasMany(Gallery::class, 'created_by', 'id');
-    } 
+    }
     public function userContactUs(): HasMany
     {
         return $this->hasMany(ContactUs::class, 'read_by', 'id');
-    } 
+    }
     public function userTag(): HasMany
     {
         return $this->hasMany(ContactUs::class, 'created_by', 'id');
-    } 
+    }
     public function userCategory(): HasMany
     {
         return $this->hasMany(Category::class, 'created_by', 'id');
-    } 
+    }
     public function userSocialMedia(): HasMany
     {
         return $this->hasMany(SocialMedia::class, 'created_by', 'id');
-    } 
+    }
 }
