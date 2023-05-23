@@ -15,6 +15,7 @@
         "openspout/openspout": "^4.13",
         "power-components/livewire-powergrid": "^4.4",
         "wireui/wireui": "^1.17"
+        "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
