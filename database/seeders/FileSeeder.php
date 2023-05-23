@@ -15,7 +15,7 @@ class FileSeeder extends Seeder
         File::create([
             'name' => 'default-image',
             'slug' => 'default-image',
-            'file' => 'storage/image-default/default-image.png',
+            'file' => 'public/images/image-default/default-image.png',
             'file_type' =>'image',
             'description'=>'default-image',
             'size'=>'15.0',
@@ -25,7 +25,7 @@ class FileSeeder extends Seeder
         File::create([
             'name' => 'default-image-women',
             'slug' => 'default-image-women',
-            'file' => 'storage/image-default/default-image-women.png',
+            'file' => 'public/images/image-default/default-image-women.png',
             'file_type' =>'image',
             'description'=>'default-image-women',
             'size'=>'15.0',
@@ -35,7 +35,7 @@ class FileSeeder extends Seeder
         File::create([
             'name' => 'default-user-men',
             'slug' => 'default-user-men',
-            'file' => 'storage/image-default/default-user-men.png',
+            'file' => 'public/images/image-default/default-user-men.png',
             'file_type' =>'image',
             'description'=>'default-user-men',
             'size'=>'15.0',
@@ -45,7 +45,7 @@ class FileSeeder extends Seeder
         File::create([
             'name' => 'LOGO-KABUPATEN-SEKADAU',
             'slug' => 'LOGO-KABUPATEN-SEKADAU',
-            'file' => 'storage/image-default/LOGO-KABUPATEN-SEKADAU.png',
+            'file' => 'public/images/image-default/LOGO-KABUPATEN-SEKADAU.png',
             'file_type' =>'image',
             'description'=>'LOGO-KABUPATEN-SEKADAU',
             'size'=>'15.0',
