@@ -2,9 +2,8 @@
 
 namespace App\Enums;
 
-enum MenuType:string{
-    case Image = "post";
-    case Video = "link";
-    case Document = "category";
-
+enum FileType:string{
+    case Image = "image";
+    case Video = "video";
+    case Document = "document";
 }
