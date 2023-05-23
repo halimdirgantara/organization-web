@@ -20,7 +20,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
