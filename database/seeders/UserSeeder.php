@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'phone' => '6281251413425',
             'address' => 'Sekadau',
             'email' => 'superadmin@gmail.com',
-            'password' => bcrypt('superadmin'),
+            'password' => bcrypt('password'),
             'organization_id' => '1',
             'is_online' => '0',
             'is_active' => '1',
