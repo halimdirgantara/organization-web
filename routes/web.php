@@ -28,5 +28,6 @@ Route::middleware([
     })->name('dashboard');
     Route::name('master-data.')->group(function () {
         Route::resource('organizations', OrganizationController::class);
+        Route::resource('users', UserController::class);
     });
 });
