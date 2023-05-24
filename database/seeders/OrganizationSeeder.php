@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Organization;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\Factory as Faker;
 
 class OrganizationSeeder extends Seeder
 {
@@ -37,5 +38,21 @@ class OrganizationSeeder extends Seeder
             'phone' =>'+62 564',
             'fax' =>'+62 564',
         ]);
+        $faker = Faker::create();
+
+        for ($i = 0; $i < 20; $i++) {
+            Organization::create([
+                'name' => $faker->company,
+                'slug' => $faker->unique()->slug,
+                'abbreviation' => $faker->lexify('???'),
+                'description' => $faker->paragraph,
+                'address' => $faker->address,
+                'latitude' => $faker->latitude,
+                'longitude' => $faker->longitude,
+                'email' => $faker->email,
+                'phone' => $faker->phoneNumber,
+                'fax' => $faker->phoneNumber,
+            ]);
+        }
     }
 }

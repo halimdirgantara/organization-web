@@ -20,6 +20,7 @@ class FileSeeder extends Seeder
             'file_type' =>'image',
             'description'=>'default-image',
             'size'=>'15.0',
+            'downloaded'=>0,
             'organization_id'=>'1',
             'created_by'=>'1',
         ]);
@@ -30,6 +31,7 @@ class FileSeeder extends Seeder
             'file_type' =>'image',
             'description'=>'default-image-women',
             'size'=>'15.0',
+            'downloaded'=>0,
             'organization_id'=>'1',
             'created_by'=>'1',
         ]);
@@ -40,6 +42,7 @@ class FileSeeder extends Seeder
             'file_type' =>'image',
             'description'=>'default-user-men',
             'size'=>'15.0',
+            'downloaded'=>0,
             'organization_id'=>'1',
             'created_by'=>'1',
         ]);
@@ -50,6 +53,7 @@ class FileSeeder extends Seeder
             'file_type' =>'image',
             'description'=>'LOGO-KABUPATEN-SEKADAU',
             'size'=>'15.0',
+            'downloaded'=>0,
             'organization_id'=>'1',
             'created_by'=>'1',
         ]);

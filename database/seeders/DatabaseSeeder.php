@@ -14,12 +14,16 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             
-            OrganizationSeeder::class,
-            UserSeeder::class,
-            CategorySeeder::class,
-            FileSeeder::class,
-            SocialMediaSeeder::class,
-            TagSeeder::class,
+            // OrganizationSeeder::class,
+            // UserSeeder::class,
+            // CategorySeeder::class,
+            // FileSeeder::class,
+            // SocialMediaSeeder::class,
+            // TagSeeder::class,
+            // RoleSeeder::class,
+            // PermissionSeeder::class,
+            // SyncRoleAndPermissionSeeder::class,
+            SyncUserandRole::class,
         ]);
     }
 }
