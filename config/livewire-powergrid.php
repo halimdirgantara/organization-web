@@ -36,10 +36,18 @@ return [
                     'time_24hr'  => true,
                 ],
             ],
+            'locales' => [
+                'id_ID' => [
+                    'locale'     => 'id',
+                    'dateFormat' => 'd/m/Y H:i',
+                    'enableTime' => true,
+                    'time_24hr'  => true,
+                ],
+            ],
         ],
 
         'select' => [
-            'default' => 'tom',
+            'default' => 'slim',
 
             /*
              * TomSelect Options
@@ -48,7 +56,7 @@ return [
             'tom' => [
                 'plugins' => [
                     'clear_button' => [
-                        'title' => 'Remove all selected options',
+                        'title' => 'Hapus',
                     ],
                 ],
             ],

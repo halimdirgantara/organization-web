@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrganizationController;
 
 /*
@@ -12,7 +13,7 @@ use App\Http\Controllers\Admin\OrganizationController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
     Route::name('master-data.')->group(function () {
-        Route::resource('organizations', OrganizationController::class);
+        // Route::group(['middleware' => ['role:Super Admin']], function () {
+            Route::resource('organizations', OrganizationController::class);
+        // });
         Route::resource('users', UserController::class);
     });
 });

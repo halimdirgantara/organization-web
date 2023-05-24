@@ -113,7 +113,7 @@ final class OrganizationTable extends PowerGridComponent
             if ($organization->relatedModel()->exists()) {
                 $this->notification()->send([
                     'title' => 'Hapus Organisasi',
-                    'description' => 'Gagal menghapus ' . $organization . ' masih ada relasi!',
+                    'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
                     'icon' => 'error',
                 ]);
                 return;

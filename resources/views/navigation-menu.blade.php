@@ -24,13 +24,17 @@
                             <x-slot name="trigger">
                                 <a class="inline-flex items-center px-1 pt-1 " href="#">
                                     {{ __('Master Data') }}
+                                    <x-icon name="chevron-down" class="w-4 h-4 ml-1" />
                                 </a>
                             </x-slot>
 
                             <x-slot name="content">
                                 <!-- Add the dropdown menu items -->
                                 <x-dropdown-link href="{{ route('master-data.organizations.index') }}">
-                                    {{ __('Organizations') }}
+                                    {{ __('Organisasi') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('master-data.users.index') }}">
+                                    {{ __('Pengguna') }}
                                 </x-dropdown-link>
                                 <!-- Add more dropdown menu items as needed -->
                             </x-slot>
