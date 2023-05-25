@@ -96,9 +96,9 @@ class Organization extends Component
 
     public function update()
     {
-        try {
-            $organization = OrganizationModel::findOrFail($this->org_id);
-        } catch (ModelNotFoundException $e) {
+        $organization = OrganizationModel::find($this->org_id);
+        if(empty($organization))
+        {
             $this->notification([
                 'title' => 'Perbarui Organisasi',
                 'description' => 'Gagal Diperbarui! Data tidak ditemukan.',
