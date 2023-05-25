@@ -16,13 +16,38 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Add the parent menu with dropdown -->
+                <x-dropdown-parent class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" :active="request()->routeIs('master-data.*')">
+                    <div class="flex items-center ">
+                        <x-dropdown-jet>
+                            <x-slot name="trigger">
+                                <a class="inline-flex items-center px-1 pt-1 " href="#">
+                                    {{ __('Master Data') }}
+                                    <x-icon name="chevron-down" class="w-4 h-4 ml-1" />
+                                </a>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <!-- Add the dropdown menu items -->
+                                <x-dropdown-link href="{{ route('master-data.organizations.index') }}">
+                                    {{ __('Organisasi') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('master-data.users.index') }}">
+                                    {{ __('Pengguna') }}
+                                </x-dropdown-link>
+                                <!-- Add more dropdown menu items as needed -->
+                            </x-slot>
+                        </x-dropdown-jet>
+                    </div>
+                </x-dropdown-parent>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
-                        <x-dropdown align="right" width="60">
+                        <x-dropdown-jet align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
@@ -53,25 +78,27 @@
                                         </x-dropdown-link>
                                     @endcan
 
-                                    <div class="border-t border-gray-200 dark:border-gray-600"></div>
-
                                     <!-- Team Switcher -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
-                                        {{ __('Switch Teams') }}
-                                    </div>
+                                    @if (Auth::user()->allTeams()->count() > 1)
+                                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
-                                    @foreach (Auth::user()->allTeams() as $team)
-                                        <x-switchable-team :team="$team" />
-                                    @endforeach
+                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                            {{ __('Switch Teams') }}
+                                        </div>
+
+                                        @foreach (Auth::user()->allTeams() as $team)
+                                            <x-switchable-team :team="$team" />
+                                        @endforeach
+                                    @endif
                                 </div>
                             </x-slot>
-                        </x-dropdown>
+                        </x-dropdown-jet>
                     </div>
                 @endif
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown-jet align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
@@ -118,7 +145,7 @@
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
-                    </x-dropdown>
+                    </x-dropdown-jet>
                 </div>
             </div>
 
@@ -198,16 +225,18 @@
                         </x-responsive-nav-link>
                     @endcan
 
-                    <div class="border-t border-gray-200 dark:border-gray-600"></div>
-
                     <!-- Team Switcher -->
-                    <div class="block px-4 py-2 text-xs text-gray-400">
-                        {{ __('Switch Teams') }}
-                    </div>
+                    @if (Auth::user()->allTeams()->count() > 1)
+                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
-                    @foreach (Auth::user()->allTeams() as $team)
-                        <x-switchable-team :team="$team" component="responsive-nav-link" />
-                    @endforeach
+                        <div class="block px-4 py-2 text-xs text-gray-400">
+                            {{ __('Switch Teams') }}
+                        </div>
+
+                        @foreach (Auth::user()->allTeams() as $team)
+                            <x-switchable-team :team="$team" component="responsive-nav-link" />
+                        @endforeach
+                    @endif
                 @endif
             </div>
         </div>
