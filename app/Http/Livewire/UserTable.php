@@ -2,27 +2,23 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Organization;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Organization;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
-
 use PowerComponents\LivewirePowerGrid\Column;
-
-use PowerComponents\LivewirePowerGrid\Exportable;use PowerComponents\LivewirePowerGrid\Filters\Filter;
-
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridColumns;
-use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Rules\Rule;
+use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\Rules\RuleActions;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;use WireUi\Traits\Actions;
+use PowerComponents\LivewirePowerGrid\Exportable;use PowerComponents\LivewirePowerGrid\Filters\Filter;
 
 final class UserTable extends PowerGridComponent
 {
@@ -225,10 +221,24 @@ final class UserTable extends PowerGridComponent
             ->addColumn('nip')
             ->addColumn('phone')
             ->addColumn('email')
-            ->addColumn('organization_abbreviation', fn(User $model) => $model->organization->abbreviation)
             ->addColumn('organization_name', fn(User $model) => $model->organization->name)
             ->addColumn('organization_id', fn(User $model) => $model->organization->id)
             ->addColumn('is_online')
+            ->addColumn('is_online', function (User $model) {
+                if ($model->is_online == true) {
+                    return '<button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 3.636a1 1 0 010 1.414 7 7 0 000 9.9 1 1 0 11-1.414 1.414 9 9 0 010-12.728 1 1 0 011.414 0zm9.9 0a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zM7.879 6.464a1 1 0 010 1.414 3 3 0 000 4.243 1 1 0 11-1.415 1.414 5 5 0 010-7.07 1 1 0 011.415 0zm4.242 0a1 1 0 011.415 0 5 5 0 010 7.072 1 1 0 01-1.415-1.415 3 3 0 000-4.242 1 1 0 010-1.415zM10 9a1 1 0 011 1v.01a1 1 0 11-2 0V10a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                            </button>';
+                } else {
+                    return '<button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3.707 2.293a1 1 0 00-1.414 1.414l6.921 6.922c.05.062.105.118.168.167l6.91 6.911a1 1 0 001.415-1.414l-.675-.675a9.001 9.001 0 00-.668-11.982A1 1 0 1014.95 5.05a7.002 7.002 0 01.657 9.143l-1.435-1.435a5.002 5.002 0 00-.636-6.294A1 1 0 0012.12 7.88c.924.923 1.12 2.3.587 3.415l-1.992-1.992a.922.922 0 00-.018-.018l-6.99-6.991zM3.238 8.187a1 1 0 00-1.933-.516c-.8 3-.025 6.336 2.331 8.693a1 1 0 001.414-1.415 6.997 6.997 0 01-1.812-6.762zM7.4 11.5a1 1 0 10-1.73 1c.214.371.48.72.795 1.035a1 1 0 001.414-1.414c-.191-.191-.35-.4-.478-.622z" />
+                                </svg>
+                            </button>';
+                }
+            })
             ->addColumn('is_active')
             ->addColumn('created_at_formatted', fn(User $model) => Carbon::parse($model->created_at)->diffForHumans());
     }
@@ -268,8 +278,7 @@ final class UserTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Online ?', 'is_online')
-                ->toggleable(),
+            Column::make('Online ?', 'is_online'),
 
             Column::make('Aktif ?', 'is_active')
                 ->toggleable(),
@@ -326,25 +335,30 @@ final class UserTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
     public function actions(): array
     {
-    return [
-    Button::make('edit', 'Edit')
-    ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-    ->route('user.edit', function(\App\Models\User $model) {
-    return $model->id;
-    }),
+        return [
+            Button::add('edit')
+                ->render(function (User $user) {
+                    return Blade::render(<<<HTML
+                    <x-button primary icon="pencil" wire:click="editUser('$user->id')" />
+                    HTML);
+                }),
 
-    Button::make('destroy', 'Delete')
-    ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-    ->route('user.destroy', function(\App\Models\User $model) {
-    return $model->id;
-    })
-    ->method('delete')
-    ];
+            Button::add('delete')
+                ->render(function (User $user) {
+                    return Blade::render(<<<HTML
+                    <x-button negative icon="trash" wire:click="rowDeleteConfirm('$user->id')"  />
+                    HTML);
+                }),
+
+        ];
     }
-     */
+
+    public function editUser($id)
+    {
+        $this->emit('editUser', $id);
+    }
 
     /*
     |--------------------------------------------------------------------------

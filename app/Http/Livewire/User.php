@@ -7,7 +7,9 @@ use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
 use App\Models\Organization;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use App\Models\user as UserModel;
+use Illuminate\Http\UploadedFile;
 
 class User extends Component
 {
@@ -19,7 +21,7 @@ class User extends Component
     protected $listeners = ['editUser'];
     public $user;
 
-    public $userId;
+    public $user_id;
     public $photoProfile;
     public $name;
     public $nip;
@@ -28,11 +30,9 @@ class User extends Component
     public $address;
     public $email;
     public $password;
-    public $organizationId;
+    public $organization_id;
     public $is_online;
     public $is_active;
-
-    public $mask;
 
     public $selected  = '';
 
@@ -41,11 +41,6 @@ class User extends Component
     public function render()
     {
         return view('livewire.user');
-    }
-
-    public function getInputMask()
-    {
-        return '###### ###### # ###';
     }
 
     public function toggleForm()
@@ -64,20 +59,25 @@ class User extends Component
         $this->editForm = !$this->editForm;
     }
 
+    public function editUser($id)
+    {
+        $this->editForm = true;
+        $this->user = UserModel::findOrFail($id);
+        $this->mount();
+    }
+
     public function mount()
     {
         if ($this->user) {
-            $this->userId = $this->user->user_id;
+            $this->user_id = $this->user->id;
             $this->photoProfile = $this->user->profile_photo_url;
             $this->name = $this->user->name;
             $this->nip = $this->user->nip;
             $this->nik = $this->user->nik;
             $this->phone = $this->user->phone;
+            $this->email = $this->user->email;
             $this->address = $this->user->address;
-            $this->password = $this->user->password;
-            $this->organizationId = $this->user->organization_id;
-            $this->isOnline = $this->user->is_online;
-            $this->isActive = $this->user->is_active;
+            $this->organization_id = $this->user->organization_id;
         }
     }
 
@@ -110,18 +110,22 @@ class User extends Component
             'nik' => 'required|string|max:20',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
+            'password' => 'string|min:8',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
             'organization_id' => 'required|integer',
-            'is_online' => 'required|boolean',
-            'is_active' => 'required|boolean',
         ]);
 
-        $data['name'] = Str::slug($data['name']);
+        $data['password'] = bcrypt('Sekadau$23');
+        if ($this->password)
+        {
+            $data['password'] = bcrypt($this->password);
+        }
 
+        $data['is_active'] = TRUE;
         if ($this->photoProfile) {
-            $photoProfileName = $data['slug'] . '.' . $this->photoProfile->getClientOriginalExtension();
-            $this->logo->storeAs('public/profile-photo', $photoProfileName);
+            $photoName = Str::slug($data['name']);
+            $photoProfileName = $photoName . '.' . $this->photoProfile->getClientOriginalExtension();
+            $this->photoProfile->storeAs('public/profile-photo', $photoProfileName);
             $data['profile_photo_url'] = 'storage/profile-photo/' . $photoProfileName;
         }
 
@@ -135,10 +139,7 @@ class User extends Component
             'phone',
             'address',
             'email',
-            'password',
             'organization_id',
-            'is_online',
-            'is_active'
         );
         $this->notification([
             'title' => 'Tambah Pengguna',
@@ -147,4 +148,64 @@ class User extends Component
         ]);
         $this->emit('newUser');
     }
+
+    public function update()
+    {
+        $user = UserModel::find($this->user_id);
+        if(empty($user))
+        {
+            $this->notification([
+                'title' => 'Perbarui Pengguna',
+                'description' => 'Gagal Diperbarui! Data tidak ditemukan.',
+                'icon' => 'error',
+            ]);
+            return;
+        }
+
+        $data = $this->validate([
+            'name' => 'required|string|max:255',
+            'nip' => 'required|string|max:20',
+            'nik' => 'required|string|max:20',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'email' => ['required','email',Rule::unique('users')->ignore($this->user_id)],
+            'organization_id' => 'required|integer',
+        ]);
+
+        if ($this->password)
+        {
+            $data['password'] = bcrypt($this->password);
+        }
+
+        if ($this->photoProfile && is_a($this->photoProfile, UploadedFile::class))
+        {
+            $photoName = Str::slug($data['name']);
+            $photoProfileName = $photoName . '.' . $this->photoProfile->getClientOriginalExtension();
+            $this->photoProfile->storeAs('public/profile-photo', $photoProfileName);
+            $data['profile_photo_url'] = 'storage/profile-photo/' . $photoProfileName;
+        }
+
+        $user->update($data);
+
+        $this->editForm = false;
+        $this->reset(
+            'name',
+            'nip',
+            'nik',
+            'phone',
+            'address',
+            'email',
+            'organization_id',
+        );
+        $this->notification([
+            'title' => 'Perbarui Pengguna',
+            'description' => $data['name'] . ' Berhasil Disimpan!',
+            'icon' => 'success',
+        ]);
+        $this->emit('newUser');
+
+    }
+
+
+
 }

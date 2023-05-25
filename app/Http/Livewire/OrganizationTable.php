@@ -308,13 +308,6 @@ final class OrganizationTable extends PowerGridComponent
                 HTML);
             }),
 
-            // Button::add('delete')
-            // ->caption('Hapus')
-            // ->class('bg-gray-300')
-            // ->icon('trash')
-            // ->dispatch('rowDelete', function(Organization $organization) {
-            //     return ['key' => $organization->id];
-            // }),
         ];
     }
 
