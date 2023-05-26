@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware([
+    'update.user.online',
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
