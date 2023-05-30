@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Organizations;
 
 use WireUi\Traits\Actions;
 use App\Models\Organization;
@@ -110,7 +110,7 @@ final class OrganizationTable extends PowerGridComponent
     {
         foreach ($this->checkboxValues as $item) {
             $organization = Organization::findOrFail($item);
-            if ($organization->relatedModel()->exists()) {
+            if ($organization->user()->exists()) {
                 $this->notification()->send([
                     'title' => 'Hapus Organisasi',
                     'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
@@ -143,16 +143,17 @@ final class OrganizationTable extends PowerGridComponent
 
     public function rowDelete($slug)
     {
-        $organization_id = Organization::where('slug', $slug)->first()->id;
-        $organization = Organization::findOrFail($organization_id);
-        // if ($organization->relatedModel()->exists()) {
-        //     $this->notification()->send([
-        //         'title' => 'Hapus Organisasi',
-        //         'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
-        //         'icon' => 'error',
-        //     ]);
-        //     return;
-        // }
+        $organization = Organization::where('slug', $slug)->first();
+        if ($organization->user()->exists())
+        {
+            $this->notification()->send([
+                'title' => 'Hapus Organisasi',
+                'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
+                'icon' => 'error',
+            ]);
+            return;
+        }
+
         $organization->delete();
         $this->notification()->send([
             'title' => 'Hapus Organisasi',
