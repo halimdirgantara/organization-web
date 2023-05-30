@@ -32,6 +32,10 @@ Route::middleware([
         // Route::group(['middleware' => ['role:Super Admin']], function () {
             Route::resource('organizations', OrganizationController::class);
         // });
-        Route::resource('users', UserController::class);
+    });
+    Route::name('setting.')->group(function () {
+        // Route::group(['middleware' => ['role:Super Admin']], function () {
+            Route::resource('users', UserController::class);
+        // });
     });
 });
