@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Permissions;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
 use PowerComponents\LivewirePowerGrid\Filters\Filter;
@@ -143,25 +144,29 @@ final class PermissionTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-    /*
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('permission.edit', function(\Spatie\Permission\Models\Permission $model) {
-                    return $model->id;
-               }),
+        return [
+            Button::add('edit')
+                ->render(function (Permission $permission) {
+                    return Blade::render(<<<HTML
+                    <x-button primary icon="pencil" wire:click="editPermission('$permission->id')" />
+                    HTML);
+                }),
 
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('permission.destroy', function(\Spatie\Permission\Models\Permission $model) {
-                    return $model->id;
-               })
-               ->method('delete')
+            Button::add('delete')
+                ->render(function (Permission $permission) {
+                    return Blade::render(<<<HTML
+                    <x-button negative icon="trash" wire:click="rowDeleteConfirm('$permission->id')"  />
+                    HTML);
+                }),
+
         ];
     }
-    */
+    public function editPermission($id)
+    {
+        $this->emit('editPermission', $id);
+    }
 
     /*
     |--------------------------------------------------------------------------

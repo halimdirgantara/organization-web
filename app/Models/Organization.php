@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
@@ -36,9 +35,9 @@ class Organization extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user()
+    public function user(): HasMany
     {
-        return $this->hasMany(User::class, 'organization_id', 'id');
+        return $this->hasMany(User::class, 'organzation_id', 'id');
     }
 
     public function organizationVisitor(): HasMany

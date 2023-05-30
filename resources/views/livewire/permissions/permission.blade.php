@@ -13,4 +13,7 @@
     @if($createForm)
         @include('admin.permission.create-form')
     @endif
+    @if($editForm)
+        @include('admin.permission.edit-form')
+    @endif
 </div>

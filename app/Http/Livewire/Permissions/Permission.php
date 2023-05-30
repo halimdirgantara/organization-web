@@ -32,6 +32,26 @@ class Permission extends Component
             $this->createForm = false;
         }
     }
+    
+    public function toggleEditForm()
+    {
+        $this->editForm = !$this->editForm;
+    }
+
+    public function editPermission($id)
+    {
+        $this->editForm = true;
+        $this->permission = PermissionModel::findOrFail($id);
+        $this->mount();
+    }
+
+    public function mount()
+    {
+        if ($this->permission) {
+            $this->permission_id = $this->permission->id;
+            $this->name = $this->permission->name;
+        }
+    }
 
     public function confirmSave()
     {
@@ -66,5 +86,31 @@ class Permission extends Component
 
         //Buat refresh table
         $this->emit('newUser');
+    }
+    public function update()
+    {
+        $permission=PermissionModel::find($this->permission->id);
+        if(empty($permission))
+        {
+            $this->notification([
+                'title' => 'Perbarui Permission',
+                'description' => 'Gagal Diperbarui! Data tidak ditemukan.',
+                'icon' => 'error',
+            ]);
+            return;
+        }
+        $data = $this->validate([
+            'name' => 'required',
+        ]);
+        $permission->update($data);
+
+        $this->editForm = false;
+        $this->reset('name');
+        $this->notification([
+            'title' => 'Perbarui Permission',
+            'description' => $data['name'] . ' Berhasil Diperbarui!',
+            'icon' => 'success',
+        ]);
+        $this->emit('newPermission');
     }
 }
