@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Livewire\Permissions;
+namespace App\Http\Livewire\Tags;
 
-use WireUi\Traits\Actions;
+use App\Models\Tag;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Blade;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\{ActionButton, WithExport};
+use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridColumns};
 
-final class PermissionTable extends PowerGridComponent
+final class TagTable extends PowerGridComponent
 {
     use ActionButton;
     use WithExport;
-    use Actions;
 
     /*
     |--------------------------------------------------------------------------
@@ -40,42 +36,6 @@ final class PermissionTable extends PowerGridComponent
                 ->showRecordCount(),
         ];
     }
-    public function rowDeleteConfirm($id)
-    {
-        $this->notification()->confirm([
-            'title' => 'Apakah anda yakin ?',
-            'description' => 'Hapus Permission?',
-            'acceptLabel' => 'Ya, Hapus!',
-            'rejectLabel' => 'Batalkan',
-            'method' => 'rowDelete',
-            'params' => [
-                'key' => $id,
-            ],
-        ]);
-    }
-
-    public function rowDelete($id)
-    {
-        $roles  = Permission::find($id);
-        dd($roles);
-        $permission=Permission::find($id);
-        if ($roles->isEmpty())
-        {
-            $permission->delete();
-            $this->notification()->send([
-                'title' => 'Hapus Permission',
-                'description' => 'Anda berhasil menghapus permission!',
-                'icon' => 'success',
-            ]);
-        }
-        
-        $this->notification()->send([
-            'title' => 'Hapus Perizinan',
-            'description' => 'Gagal menghapus ' . $organization->name . ' masih ada relasi!',
-            'icon' => 'error',
-        ]);
-        return;
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -88,11 +48,11 @@ final class PermissionTable extends PowerGridComponent
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\Spatie\Permission\Models\Permission>
+     * @return Builder<\App\Models\Tag>
      */
     public function datasource(): Builder
     {
-        return Permission::query();
+        return Tag::query();
     }
 
     /*
@@ -129,7 +89,14 @@ final class PermissionTable extends PowerGridComponent
         return PowerGrid::columns()
             ->addColumn('id')
             ->addColumn('name')
-            ->addColumn('created_at_formatted', fn (Permission $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+
+           /** Example of custom column using a closure **/
+            ->addColumn('name_lower', fn (Tag $model) => strtolower(e($model->name)))
+
+            ->addColumn('slug')
+            ->addColumn('organization_id')
+            ->addColumn('created_by')
+            ->addColumn('created_at_formatted', fn (Tag $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -150,7 +117,16 @@ final class PermissionTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Name', 'name'),
+            Column::make('Name', 'name')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Slug', 'slug')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Organization id', 'organization_id'),
+            Column::make('Created by', 'created_by'),
             Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->sortable(),
 
@@ -165,6 +141,8 @@ final class PermissionTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::inputText('name')->operators(['contains']),
+            Filter::inputText('slug')->operators(['contains']),
             Filter::datetimepicker('created_at'),
         ];
     }
@@ -178,34 +156,30 @@ final class PermissionTable extends PowerGridComponent
     */
 
     /**
-     * PowerGrid Permission Action Buttons.
+     * PowerGrid Tag Action Buttons.
      *
      * @return array<int, Button>
      */
 
+    /*
     public function actions(): array
     {
-        return [
-            Button::add('edit')
-                ->render(function (Permission $permission) {
-                    return Blade::render(<<<HTML
-                    <x-button primary icon="pencil" wire:click="editPermission('$permission->id')" />
-                    HTML);
-                }),
+       return [
+           Button::make('edit', 'Edit')
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+               ->route('tag.edit', function(\App\Models\Tag $model) {
+                    return $model->id;
+               }),
 
-            Button::add('delete')
-                ->render(function (Permission $permission) {
-                    return Blade::render(<<<HTML
-                    <x-button negative icon="trash" wire:click="rowDeleteConfirm('$permission->id')"  />
-                    HTML);
-                }),
-
+           Button::make('destroy', 'Delete')
+               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+               ->route('tag.destroy', function(\App\Models\Tag $model) {
+                    return $model->id;
+               })
+               ->method('delete')
         ];
     }
-    public function editPermission($id)
-    {
-        $this->emit('editPermission', $id);
-    }
+    */
 
     /*
     |--------------------------------------------------------------------------
@@ -216,7 +190,7 @@ final class PermissionTable extends PowerGridComponent
     */
 
     /**
-     * PowerGrid Permission Action Rules.
+     * PowerGrid Tag Action Rules.
      *
      * @return array<int, RuleActions>
      */
@@ -228,7 +202,7 @@ final class PermissionTable extends PowerGridComponent
 
            //Hide button edit for ID 1
             Rule::button('edit')
-                ->when(fn($permission) => $permission->id === 1)
+                ->when(fn($tag) => $tag->id === 1)
                 ->hide(),
         ];
     }
