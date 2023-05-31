@@ -4,16 +4,16 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                {{-- <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-mark class="block h-9 w-auto mr-4" />
                     </a>
-                </div>
+                </div> --}}
                 <!-- Org -->
                 <div class="shrink-0 flex items-center">
-                    <h1>
+                    <div class="text-lg text-primary-500 text font-bold">
                         {{ Auth::user()->organization->name }}
-                    </h1>
+                    </div>
                 </div>
             </div>
 
