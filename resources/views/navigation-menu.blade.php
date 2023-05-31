@@ -36,6 +36,12 @@
                                 <x-dropdown-link href="{{ route('master-data.users.index') }}">
                                     {{ __('Pengguna') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('master-data.tags.index') }}">
+                                    {{ __('Tags') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('master-data.permissions.index') }}">
+                                    {{ __('Perizinan') }}
+                                </x-dropdown-link>
                                 <!-- Add more dropdown menu items as needed -->
                             </x-slot>
                         </x-dropdown-jet>

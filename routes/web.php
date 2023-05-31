@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\OrganizationController;
 
 /*
@@ -31,6 +33,8 @@ Route::middleware([
     Route::name('master-data.')->group(function () {
         // Route::group(['middleware' => ['role:Super Admin']], function () {
             Route::resource('organizations', OrganizationController::class);
+            Route::resource('tags', TagController::class);
+            Route::resource('permissions', PermissionController::class);
         // });
         Route::resource('users', UserController::class);
     });
