@@ -8,6 +8,7 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-mark class="block h-9 w-auto mr-4" />
                     </a>
+
                 </div> --}}
                 <!-- Org -->
                 <div class="shrink-0 flex items-center">

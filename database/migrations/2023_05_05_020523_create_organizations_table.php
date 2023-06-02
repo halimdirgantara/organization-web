@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('abbreviation');
-            $table->string('description');
+            $table->text('description');
             $table->string('address');
             $table->double('latitude');
             $table->double('longitude');
