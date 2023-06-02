@@ -36,6 +36,10 @@ Route::middleware([
             Route::resource('tags', TagController::class);
             Route::resource('permissions', PermissionController::class);
         // });
-        Route::resource('users', UserController::class);
+    });
+    Route::name('setting.')->group(function () {
+        // Route::group(['middleware' => ['role:Super Admin']], function () {
+            Route::resource('users', UserController::class);
+        // });
     });
 });
