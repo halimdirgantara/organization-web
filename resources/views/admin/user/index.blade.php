@@ -8,12 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <livewire:user />
+                <livewire:users.user />
             </div>
         </div>
         <div class="max-w-7xl p-4 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <livewire:user-table/>
+                <livewire:users.user-table/>
             </div>
         </div>
     </div>
