@@ -31,6 +31,15 @@
         <main>
             <div class="md:ml-64">
                 <!-- Page Heading -->
+                @if (isset($header))
+                    <div class="md:mt-16">
+                        <header class="bg-white dark:bg-gray-800 shadow lg:mt-16">
+                            <div class=" py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    </div>
+                @endif
                 {{ $slot }}
             </div>
         </main>
